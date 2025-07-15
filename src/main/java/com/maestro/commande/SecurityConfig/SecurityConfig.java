@@ -14,21 +14,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtTokenValidator validator;
-
-    public SecurityConfig(JwtTokenValidator validator) {
-        this.validator = validator;
-    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf().disable()
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new JwtAuthenticationFilter(validator), UsernamePasswordAuthenticationFilter.class)
-                .build();
+            .csrf().disable()
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll() //ن
+            )
+            .build();
     }
 }
+
 
 
