@@ -48,7 +48,10 @@ public class OrderController {
    // @PreAuthorize("isAuthenticated()") 
     public Mono<List<Order>> getOrders(@RequestParam(required = false) String userId,
                                        @RequestParam(required = false) String dateString) {
-    	LocalDateTime date = LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    	LocalDateTime date = null;
+    	if (dateString != null && !dateString.isEmpty()) {
+    	    date = LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    	}
         return orderService.getOrders(userId, date);
     }
 
